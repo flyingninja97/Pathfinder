@@ -7,7 +7,7 @@
   }
   table
   {
-    width: 98%;
+    width: 100%;
   }
 
   tr,td
@@ -41,7 +41,10 @@
     border-color: yellow;
 
   }
- 
+  .start
+  {
+    background-image: url(triangletwo-right.svg);
+  }
   .anime
   {
     background-color: lightseagreen;
