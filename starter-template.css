@@ -1,0 +1,120 @@
+  body {
+    padding-top: 5rem;
+  }
+  .starter-template {
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+  table
+  {
+    width: 100%;
+  }
+
+  tr,td
+  {
+  
+    border: 1px solid #add8e6;
+    width:25px;
+    height:22px;
+    padding-left:0px;
+    padding-right:0px;
+    
+    
+  }
+
+
+.source
+{
+  background-color: red;
+  border-color: red;
+}
+
+.destination
+{
+  background-color: green;
+  border-color: green;
+}
+
+  .pathprinter
+  {
+    background-color: yellow;
+    border-color: yellow;
+
+  }
+  .start
+  {
+    background-image: url(triangletwo-right.svg);
+  }
+  .anime
+  {
+    background-color: lightseagreen;
+    animation-name: example;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+    
+  }
+
+  /* @keyframes example {
+    from {background-color: #0892d0;}
+    to {background-color:orange;}
+  } */
+
+  .tblcell
+  {
+    background-color: #34495e;
+    border-color:#34495e;
+    animation-name: cellfill;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+
+
+  @keyframes cellfill{
+  
+  
+  
+    50% {
+      transform: scale(1.5);
+      background-color: #000000;
+    }
+  
+    100% {
+      transform: scale(1);
+      background-color: #000000;
+    }
+  }
+
+
+
+  @keyframes example{
+    0% {
+      transform: scale(0.3);
+      background-color: rgba(0, 0, 66, 0.75);
+      border-radius: 100%;
+    }
+  
+    50% {
+      background-color: rgba(17, 104, 217, 0.75);
+    }
+  
+    75% {
+      transform: scale(1.2);
+      background-color: rgba(0, 217, 159, 0.75);
+    }
+  
+    100% {
+      transform: scale(1);
+      background-color: rgba(0, 190, 218, 0.75);
+    }
+  }
+
