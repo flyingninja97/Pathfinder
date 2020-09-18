@@ -7,7 +7,16 @@
   }
   table
   {
-    width: 100%;
+    width: 98%;
+    margin-left: 2px;
+    margin-left: auto;
+    margin-top: 12px;
+    margin-right: auto;
+  }
+
+  .tbl
+  {
+    margin-top: 40px;
   }
 
   tr,td
@@ -15,24 +24,45 @@
   
     border: 1px solid #add8e6;
     width:25px;
-    height:22px;
+    height:25px;
     padding-left:0px;
     padding-right:0px;
     
     
   }
+ 
+  .legend
+  {
+    display:inline-block;
+    padding-left: 20px;
+  }
+
+  .legend-content
+  {
+    font-family: "Lato", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.72222;
+    color: #34495e;
+  }
+
+  #child
+  {
+    display: inline-block;
+  }
 
 
 .source
 {
-  background-color: red;
-  border-color: red;
+
+  background-image: url('arrow.svg');
+  background-repeat: repeat-y;
 }
 
 .destination
 {
-  background-color: green;
-  border-color: green;
+  background-image: url("target.svg");
+  background-repeat: repeat-y;
+  background-color: white;
 }
 
   .pathprinter
@@ -41,9 +71,54 @@
     border-color: yellow;
 
   }
+
+  .finalpath
+  {
+    background-color: yellow;
+    border-color: yellow;
+    animation-name: finale;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+
+  
   .start
   {
-    background-image: url(triangletwo-right.svg);
+    background-image: url('arrow.svg');
+    border:none;
+    background-repeat: none;
+   
+  }
+
+  .visited1
+  {
+    background-color: lightseagreen;
+    border-color:lightseagreen;
+    background-repeat: repeat-y;
+  }
+
+  .visited2
+  {
+    background-color: rgba(0, 217, 159, 0.75);
+    border-color:rgba(0, 217, 159, 0.75);
+    background-repeat: repeat-y; 
+  }
+.space
+{
+  border:none;
+}
+
+  .end
+  {
+    
+    background-image: url("target.svg");
+    background-repeat: repeat-y;
+    
   }
   .anime
   {
@@ -67,7 +142,7 @@
   .tblcell
   {
     background-color: #34495e;
-    border-color:#34495e;
+    border-color:black;
     animation-name: cellfill;
     animation-duration: 0.2s;
     animation-timing-function: ease-out;
@@ -93,6 +168,30 @@
       background-color: #000000;
     }
   }
+
+
+
+  @keyframes finale{
+    0% {
+      transform: scale(0.3);
+      background-color: #f5f5dc;
+      background-image: url("bubble.png");
+      border-radius: 100%;
+    }
+  
+    50% {
+      background-color: #eedc82;
+      background-image: url("bubble.png");
+    }
+  
+   
+  
+    100% {
+      transform: scale(1);
+      background-color: yellow;
+    }
+  }
+
 
 
 

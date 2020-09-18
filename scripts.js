@@ -1,8 +1,10 @@
 // Initial setup of rows and columns
 let origin_selected=false;
+let total_visited_nodes=0;
+let total_nodes_in_finalpath=0;
 let flag=0;
-let table_rows=25
-let table_columns=55
+let table_rows=20
+let table_columns=49
 let start_node_row,start_node_col,end_node_col,end_node_row,src_define,dest_define,src_id,dest_id;
 start_node_row=Math.floor(Math.random() * (table_rows));  
 start_node_col=Math.floor(Math.random() * (table_columns));
@@ -61,7 +63,7 @@ const rseg=(s)=>
   return rseg;
 }
 let table=document.getElementById('tbl');
-console.log(table);
+
 for(let i=0;i<table_rows;i++)
 {
   let tre=document.createElement('tr');
@@ -125,8 +127,6 @@ const setup=()=>
         let row_num=Number(row.substring(2));
         let col_num=Number(col.substring(2));
         let selector='#'+row+' '+'.'+col;
-        console.log('-->',selector)
-        console.log('---')
         if(selector==src_id || selector==dest_id)
             {
                 origin_selected='true';
@@ -158,9 +158,8 @@ const setup=()=>
       mouseclicked=false;
    
     })
-    console.log(src_id);
+  
     document.querySelector(src_id).classList.add('source')
-    console.log(dest_id);
     document.querySelector(dest_id).classList.add('destination');
 
     document.getElementById('tbl').addEventListener('mouseover',(e)=>{
@@ -216,16 +215,12 @@ const printPath =(finalpath)=>{
   for (let i=0;i<finalpath.length;i++)
       {
 
-        console.log('length is',finalpath.length) 
-        console.log('flag-->',flag);  
         setTimeout(()=>{
           let r=Number(seg(finalpath[i]));
           let c=Number(finalpath[i].substring(2));
           let str='#tr'+r+' .td'+c;
-          console.log(document.querySelector(str));
-         
         document.querySelector(str).classList.remove('anime');
-        document.querySelector(str).classList.add('pathprinter')
+        document.querySelector(str).classList.add('finalpath')
         },50*i);
       
       }
@@ -268,7 +263,6 @@ for(let j=1;j<=len && !visited.includes(dest);j++)
     }
     if(!isFinite(mini))
         {
-           console.log('INININININININI');
            return ; 
         }
     let r=Number(seg(ind));
@@ -279,7 +273,6 @@ for(let j=1;j<=len && !visited.includes(dest);j++)
       if((ind!=src && ind!=dest && mini!=Infinity))
       {
       let u= document.querySelector(str)
-      console.log('-->',u.getAttribute('class'))
       u.classList.add('anime');
       }
       let inter;
@@ -289,8 +282,6 @@ for(let j=1;j<=len && !visited.includes(dest);j++)
        printPath(output);
         flag=1;
       }
-
-      console.log(flag);
     },10*j)
     visited.push(ind);
     if(r-1>=0)
@@ -350,26 +341,22 @@ for(let j=1;j<=len && !visited.includes(dest);j++)
 
 }
 let xx=dest;
-console.log(dest)
+
 output=[]
-console.log(parent)
+
 let counter=0;
 while(parent[xx]!=-1 && counter<=100000)
 {
   counter+=1;
   if(parent[xx]!=undefined)
   {
-  console.log(parent[xx]);
  
   output.push(parent[xx]);
   xx=parent[xx];
   }
   
 }
-// printPath(output);
-// return output;
 
-console.log('finished!!')
 
 }
 
@@ -382,25 +369,49 @@ document.getElementById('initiate').addEventListener('click',()=>{
 
 dijkstra(arr,src_define,dest_define,printPath);
   
-document.getElementById('clear').addEventListener('click',()=>{
-  setDefaulter();
-})
 });
 
 
-window.addEventListener('resize',()=>{
-    console.log(window.innerHeight);
-    console.log(window.innerWidth);
-    // let w=window.innerWidth;
-    // let h=window.innerHeight;
-    //  table_rows=Number(Math.floor(w/27));
-    //   table_columns=Number(Math.floor(h/54));
-    // console.log(table_rows,table_columns);
 
-    // setup();
+document.getElementById('clear').addEventListener('click',()=>{
+  arr=[];
+  for(let i=0;i<table_rows;i++)
+      {
+        let a2=[];
+        for(let j=0;j<table_columns;j++)
+        {
+          a2.push(1);
+        }
+        arr.push(a2);
+      }
+  
+  for(let i=0;i<table_rows;i++)
+  {
+    for(let j=0;j<table_columns;j++)
+    {
+      if((i==start_node_row && j==start_node_col)||(i==end_node_row && j==end_node_col))
+        continue;
 
-})
 
+        let selector='#tr'+i+' '+' .td'+j;
+        if(document.querySelector(selector).classList.contains('tblcell'))
+        {
+            document.querySelector(selector).classList.remove('tblcell');
+        }
+        if(document.querySelector(selector).classList.contains('anime'))
+        {
+            document.querySelector(selector).classList.remove('anime');
+        }
+
+        if(document.querySelector(selector).classList.contains('finalpath'))
+        {
+            document.querySelector(selector).classList.remove('finalpath');
+        }
+
+        
+    }
+  }
+});
 
 
 
