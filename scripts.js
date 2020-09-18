@@ -3,8 +3,8 @@ let origin_selected=false;
 let total_visited_nodes=0;
 let total_nodes_in_finalpath=0;
 let flag=0;
-let table_rows=20
-let table_columns=49
+let table_rows=window.innerHeight/35;
+let table_columns=window.innerWidth/30;
 let start_node_row,start_node_col,end_node_col,end_node_row,src_define,dest_define,src_id,dest_id;
 start_node_row=Math.floor(Math.random() * (table_rows));  
 start_node_col=Math.floor(Math.random() * (table_columns));
@@ -212,7 +212,7 @@ const mapLen= (s)=>
 
 const printPath =(finalpath)=>{
 
-  for (let i=0;i<finalpath.length;i++)
+  for (let i=finalpath.length-1,j=0;i>=0;i--,j++)
       {
 
         setTimeout(()=>{
@@ -221,7 +221,7 @@ const printPath =(finalpath)=>{
           let str='#tr'+r+' .td'+c;
         document.querySelector(str).classList.remove('anime');
         document.querySelector(str).classList.add('finalpath')
-        },50*i);
+        },50*j);
       
       }
 
@@ -412,6 +412,11 @@ document.getElementById('clear').addEventListener('click',()=>{
     }
   }
 });
+
+
+window.addEventListener('resize',()=>{
+  location.reload();
+})
 
 
 
