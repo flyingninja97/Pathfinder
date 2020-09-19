@@ -29,7 +29,7 @@ const wipeout=()=>{
       document.querySelector(str).classList.remove('finalpath');
 
       if(document.querySelector(str).classList.contains('anime'))
-      document.querySelector(str).classList.remove('remove')
+      document.querySelector(str).classList.remove('anime')
     }
   }
 }
