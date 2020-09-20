@@ -83,7 +83,7 @@ const rseg=(s)=>
 {
   let x=s.indexOf('+');
   let op=s.substring(x+1);
-  return rseg;
+  return Number(op);
 }
 let table=document.getElementById('tbl');
 
@@ -142,6 +142,8 @@ const setup=()=>
             t.appendChild(p);        
           }
       }
+
+
       document.getElementById('tbl').addEventListener('click',(e)=>{
 
         let row=e.target.parentNode.id;
@@ -453,21 +455,7 @@ while(parent[xx]!=-1 && counter<=100000)
 
 
 
-document.getElementById('initiate').addEventListener('click',()=>{
 
-  
-  
-  if(!selected_algo)
-  {
-    alert('Select an algorithm first!');
-    return ;
-  }
-  
-  
-
-dijkstra(arr,src_define,dest_define,printPath);
-  
-});
 
 
 
@@ -528,3 +516,266 @@ window.addEventListener('resize',()=>{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const rseg=(s)=>
+// {
+//   let x=s.indexOf('+');
+//   let op=s.substring(x+1);
+//   return Number(rseg);
+// }
+const lseg=(s)=>{
+    let op='';
+    for(let i=0;i<s.length;i++)
+    {
+        if(s[i]=='+')
+            break;
+        else
+            op+=s[i];
+    }
+
+    return Number(op);
+}
+const ispossible=(r,c,visited_dfs)=>{
+
+    if(r<0 || r>=table_rows)
+        return false;
+    if(c<0 || c>=table_columns)
+        return false;
+
+    if(arr[r][c]==Infinity)
+        return false;
+    
+    if(visited_dfs[r][c]==1)
+        return false;
+    
+    return true;
+} 
+const dfs_search=((arr,src,dest)=>
+{
+
+  console.log(src,dest);
+
+    stack=[];
+    visited_order=[];
+    visited_dfs=[];
+    stack.push(src);
+    for(let i=0;i<table_rows;i++)
+    {
+      temp=[];
+        for(let j=0;j<table_rows;j++)
+        {
+            temp.push(0);
+        }
+        visited_dfs.push(temp);
+    }
+    let complete=false;
+    while(stack.length>0 && complete==false)
+    {
+      console.log(stack.length);
+            if(stack[stack.length-1]==dest)
+                break;
+            
+
+            
+            let s=stack[stack.length-1];
+            let r=lseg(s);
+            let c=rseg(s);
+            //left movement possible
+            let kickfromstack=true;
+            console.log('roorororo',r,'dest',c);
+            if(ispossible(r,c-1,visited_dfs))
+            {
+                kickfromstack=false;
+                for(let j=c-1;j>=0;j--)
+                {
+
+                    
+                    if(ispossible(r,j,visited_dfs)==false)
+                        break;
+                    
+                    visited_dfs[r][j]=1;
+                    stack.push(r+'+'+j);
+                   
+                    
+                    let id='#tr'+r+' .td'+j;
+                    console.log(id);
+             //       document.querySelector(id).classList.add('anime');
+                    visited_order.push(id);
+
+                    let str_form=r+'+'+j;
+                    if(str_form==dest)
+                      {
+                        complete=true;
+                        break;
+                      }
+                    
+                }
+
+            }
+            else if(ispossible(r-1,c,visited_dfs))
+            {
+                kickfromstack=false;
+                for(let i=r-1;i>=0;i--)
+                {
+                    if(ispossible(i,c,visited_dfs)==false)
+                    break;
+
+                    stack.push(i+'+'+c);
+                
+                visited_dfs[i][c]=1;
+                let id='#tr'+i+' .td'+c;
+                console.log(id);
+             //   document.querySelector(id).classList.add('anime');
+                visited_order.push(id);
+
+
+                let str_form=i+'+'+c;
+                if(str_form==dest)
+                  {
+                    complete=true;
+                    break;
+                  }
+                }
+            }
+            else if(ispossible(r,c+1,visited_dfs))
+            {
+                kickfromstack=false;
+                for(let j=c+1;j<table_columns;j++)
+                {
+                    if(ispossible(r,j,visited_dfs)==false)
+                    break;
+                
+                    stack.push(r+'+'+j);
+                visited_dfs[r][j]=1;
+                let id='#tr'+r+' .td'+j;
+                console.log(id);
+             //   document.querySelector(id).classList.add('anime');
+                visited_order.push(id);
+
+
+                let str_form=r+'+'+j;
+                if(str_form==dest)
+                  {
+                    complete=true;
+                    break;
+                  }
+                }
+            }
+            else if(ispossible(r+1,c,visited_dfs))
+            {
+                kickfromstack=false;
+                for(let i=r+1;i<table_rows;i++)
+                {
+                    if(ispossible(i,c,visited_dfs)==false)
+                    break;
+                    stack.push(i+'+'+c);
+                visited_dfs[i][c]=1;
+                let id='#tr'+i+' .td'+c;
+                console.log(id);
+                //document.querySelector(id).classList.add('anime');
+                visited_order.push(id);
+
+
+                let str_form=i+'+'+c;
+                if(str_form==dest)
+                  {
+                    complete=true;
+                    break;
+                  }
+                }
+            }
+
+
+
+            if(kickfromstack==true)
+            {
+                stack.pop();
+            }
+
+            
+    }
+
+
+    return {visited_order,stack};
+
+    // (stack);console.log
+    // 0) Do until stack empty
+
+    //1)select direction to move from stack top location that has not been visited
+
+    //2)travel in the direcction until u can and push in stack as u travel
+
+    //3)on coming to halt pop the topmost array element and repeat step 1 
+})
+
+const dfs_init=()=>{
+  
+    let output=dfs_search(arr,src_define,dest_define);
+    let len=output['visited_order'].length;
+    let len2=output['stack'].length;
+    let f=0;
+    for(let i=0;i<len;i++)
+    {
+      setTimeout(()=>{
+        document.querySelector(output['visited_order'][i]).classList.add('anime');
+        if(i==len-1)
+        {
+          for(let i=0;i<len2;i++)
+          {
+            setTimeout(()=>{
+              console.log('hdhioeofinesoi');
+              console.log(output['stack'][i]);
+              let r=lseg(output['stack'][i]);
+              let c=rseg(output['stack'][i]);
+              let str='#tr'+r+' .td'+c;
+              document.querySelector(str).classList.remove('anime');
+              document.querySelector(str).classList.add('finalpath');
+            },10*i);
+          }
+        
+  
+        }   
+      },10*i);
+      
+      
+    }
+  
+  
+  
+  
+  
+  }
+
+  document.getElementById('initiate').addEventListener('click',()=>{
+
+    wipeout();
+    console.log(selected_algo_value)
+    if(!selected_algo)
+    {
+      alert('Select an algorithm first!');
+      return ;
+    }
+    
+    
+    
+  if(selected_algo_value=='Dijkstra')
+  dijkstra(arr,src_define,dest_define,printPath);
+  else
+  dfs_init();
+    
+  });
