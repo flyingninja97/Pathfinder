@@ -19,6 +19,13 @@
     margin-top: 40px;
   }
 
+
+  .gitlogo
+  {
+    width:2.5em;
+    height:2.5em;
+    
+  }
   tr,td
   {
   
@@ -54,13 +61,13 @@
 .source
 {
 
-  background-image: url('arrow.svg');
+  background-image: url('./images/arrow.svg');
   background-repeat: repeat-y;
 }
 
 .destination
 {
-  background-image: url("target.svg");
+  background-image: url("./images/target.svg");
   background-repeat: repeat-y;
   background-color: white;
 }
@@ -89,7 +96,7 @@
   
   .start
   {
-    background-image: url('arrow.svg');
+    background-image: url('./images/arrow.svg'); 
     border:none;
     background-repeat: none;
    
@@ -116,7 +123,7 @@
   .end
   {
     
-    background-image: url("target.svg");
+    background-image: url("./images/target.svg");
     background-repeat: repeat-y;
     
   }
@@ -175,14 +182,13 @@
     0% {
       transform: scale(0.3);
       background-color: #f5f5dc;
-      background-image: url("bubble.png");
+      
       border-radius: 100%;
     }
   
     50% {
       background-color: #eedc82;
-      background-image: url("bubble.png");
-    }
+          }
   
    
   
