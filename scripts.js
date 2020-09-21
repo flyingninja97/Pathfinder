@@ -761,21 +761,190 @@ const dfs_init=()=>{
   
   }
 
-  document.getElementById('initiate').addEventListener('click',()=>{
+ 
 
-    wipeout();
-    console.log(selected_algo_value)
-    if(!selected_algo)
-    {
-      alert('Select an algorithm first!');
-      return ;
+
+
+
+
+
+
+
+
+
+const manhattan=(r1,c1,r2,c2)=>{
+
+  return Math.abs(r1-r2)+Math.abs(c1-c2);
+
+}
+
+
+
+
+
+
+
+  const astar= (arr,src,dest,printPath)=>
+{
+
+  let dest_row=lseg(dest);
+  let dest_col=rseg(dest);
+  let src_row=lseg(src);
+  let src_col=lseg(src);
+  let h1=manhattan(dest_row,dest_col,src_row,src_col);
+  wipeout();
+  let visited=[];
+  let parent={};
+    parent[src]=-1;
+    let dist_from_source = {};
+    for(let i=0;i<table_rows ;i++)
+      {
+        for(let j=0;j<table_columns;j++)
+          {
+            let ind=i+'+'+j;
+          dist_from_source[ind]=Infinity ;
+          if(ind==src) 
+            dist_from_source[ind]=0+h1;
+      } 
     }
+
+    let len=mapLen(dist_from_source);
+
+for(let j=1;j<=len && !visited.includes(dest);j++)
+{
+  let mini=Infinity;
+  let ind=src;
+    for(i in dist_from_source) 
+    {
+        let r1=lseg(i);
+        let c1=rseg(i);
+        let m1=manhattan(r1,c1,dest_row,dest_col)
+        if(Number(dist_from_source[i]+m1)<mini)
+        {
+          if(visited.includes(i))
+            continue;
+            mini=dist_from_source[i]+m1;
+            ind=i;
+        }
+       
+    }
+    if(!isFinite(mini))
+        {
+           return ; 
+        }
+    let r=Number(seg(ind));
+    let c=Number(ind.substring(2));
+   
+    let str='#tr'+r+' .td'+c;
+    let interval=setTimeout(()=>{
+      if((ind!=src && ind!=dest && mini!=Infinity))
+      {
+      let u= document.querySelector(str)
+      u.classList.add('anime');
+      }
+      let inter;
+      if(ind==dest)
+      {
+   
+       printPath(output);
+        flag=1;
+      }
+    },10*j)
+    visited.push(ind);
+    if(r-1>=0)
+    {
+        let cr=r-1;
+        let cc=c;
+        let comb=cr+'+'+cc;
+       
+        if(dist_from_source[comb]>dist_from_source[ind]+arr[cr][cc])
+        {
+            dist_from_source[comb]=dist_from_source[ind]+arr[cr][cc];
+            parent[comb]=ind;
+        }
+    }
+    if(r+1<table_rows)
+    {
+        let cr=r+1;
+        let cc=c;
+        let comb=cr+'+'+cc;
+        if(dist_from_source[comb]>dist_from_source[ind]+arr[cr][cc])
+        {
+            dist_from_source[comb]=dist_from_source[ind]+arr[cr][cc];
+            parent[comb]=ind;
+         
+        }
+        
+    }
+
+    if(c+1<table_columns)
+    {
+        let cr=r;
+        let cc=c+1;
+        let comb=cr+'+'+cc;
+        if(dist_from_source[comb]>dist_from_source[ind]+arr[cr][cc])
+        {
+            dist_from_source[comb]=dist_from_source[ind]+arr[cr][cc];
+            parent[comb]=ind;
+        }
+    }
+
+    if(c-1>=0)
+    {
+        let cr=r;
+        let cc=c-1;
+        let comb=cr+'+'+cc;
+        if(dist_from_source[comb]>dist_from_source[ind]+arr[cr][cc])
+        {
+            dist_from_source[comb]=dist_from_source[ind]+arr[cr][cc];
+            parent[comb]=ind;
+     
+        }
+
+    }
+
     
-    
-    
-  if(selected_algo_value=='Dijkstra')
-  dijkstra(arr,src_define,dest_define,printPath);
-  else
-  dfs_init();
-    
-  });
+
+
+}
+let xx=dest;
+
+output=[]
+
+let counter=0;
+while(parent[xx]!=-1 && counter<=100000)
+{
+  counter+=1;
+  if(parent[xx]!=undefined)
+  {
+ 
+  output.push(parent[xx]);
+  xx=parent[xx];
+  }
+  
+}
+
+
+}
+
+
+document.getElementById('initiate').addEventListener('click',()=>{
+
+  wipeout();
+  
+  if(!selected_algo)
+  {
+    alert('Select an algorithm first!');
+    return ;
+  }
+  
+  
+  
+if(selected_algo_value=='Dijkstra')
+dijkstra(arr,src_define,dest_define,printPath);
+else if(selected_algo_value=='astar')
+  astar(arr,src_define,dest_define,printPath);
+else
+dfs_init();
+  
+});
