@@ -4,6 +4,8 @@ let selected_algo_value='';
 let origin_selected=false;
 let dest_selected=false;
 let total_visited_nodes=0;
+let algo_speed=20;
+let disabled=false;
 let total_nodes_in_finalpath=0;
 let flag=0;
 let table_rows=window.innerHeight/35;
@@ -18,6 +20,14 @@ src_define=start_node_row+'+'+start_node_col;
 dest_define=end_node_row+'+'+end_node_col;
 src_id='#tr'+start_node_row+' .td'+start_node_col;
 dest_id='#tr'+end_node_row+' .td'+end_node_col;
+
+function javascript_abort()
+{
+   throw new Error('This is not an error. This is just to abort javascript');
+}
+const disable_fun=()=>{
+  console.log('It has finished!!')
+}
 const wipeout=()=>{
 
   for(let i=0;i<table_rows;i++)
@@ -210,7 +220,7 @@ const setup=()=>
     document.getElementById('tbl').addEventListener('mouseover',(e)=>{
       console.log('MOUSE OVERRR!!')
       
-      console.log(origin_selected)
+      
       if(origin_selected)
       {
         console.log(origin_selected);
@@ -312,7 +322,12 @@ const printPath =(finalpath)=>{
           let str='#tr'+r+' .td'+c;
         document.querySelector(str).classList.remove('anime');
         document.querySelector(str).classList.add('finalpath')
-        },50*j);
+        if(i==0)
+        {
+          //enable  clear and visualize
+        disabled=false;
+        }
+        },algo_speed*j);
       
       }
 
@@ -375,7 +390,7 @@ for(let j=1;j<=len && !visited.includes(dest);j++)
        printPath(output);
         flag=1;
       }
-    },10*j)
+    },algo_speed*j)
     visited.push(ind);
     if(r-1>=0)
     {
@@ -460,6 +475,9 @@ while(parent[xx]!=-1 && counter<=100000)
 
 
 document.getElementById('clear').addEventListener('click',()=>{
+
+  if(disabled)
+    return ;
   arr=[];
   // if(document.getElementById('src_id').classList.contains('finalpath'))
   //   document.getElementById('src_id').classList.remove('finalpath');
@@ -507,6 +525,27 @@ document.getElementById('algolist').addEventListener('click',(e)=>{
   document.getElementById('dropdown01').innerHTML=e.target.id;
   selected_algo=true;
   selected_algo_value=e.target.id;
+})
+
+
+
+document.getElementById('speedlist').addEventListener('click',(e)=>{
+  console.log(e.target.id);
+  document.getElementById('dropdown02').innerHTML=e.target.id;
+  
+
+  if(e.target.id=="Speed:Slow")
+  {
+    algo_speed=50
+  }
+  else if(e.target.id=="Speed:Medium")
+  {
+    algo_speed=20;
+  }
+  else
+  {
+    algo_speed=8;
+  }
 })
 
 
@@ -745,12 +784,12 @@ const dfs_init=()=>{
               let str='#tr'+r+' .td'+c;
               document.querySelector(str).classList.remove('anime');
               document.querySelector(str).classList.add('finalpath');
-            },10*i);
+            },algo_speed*i);
           }
         
   
         }   
-      },10*i);
+      },algo_speed*i);
       
       
     }
@@ -849,7 +888,7 @@ for(let j=1;j<=len && !visited.includes(dest);j++)
        printPath(output);
         flag=1;
       }
-    },10*j)
+    },algo_speed*j)
     visited.push(ind);
     if(r-1>=0)
     {
@@ -930,8 +969,14 @@ while(parent[xx]!=-1 && counter<=100000)
 
 document.getElementById('initiate').addEventListener('click',()=>{
 
+
+  if(disabled)
+    return ;
+  // javascript_abort();
   wipeout();
   
+
+  disabled=true;
   if(!selected_algo)
   {
     alert('Select an algorithm first!');
@@ -946,5 +991,8 @@ else if(selected_algo_value=='astar')
   astar(arr,src_define,dest_define,printPath);
 else
 dfs_init();
+
+
+
   
 });
