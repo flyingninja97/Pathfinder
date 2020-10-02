@@ -478,6 +478,8 @@ document.getElementById('clear').addEventListener('click',()=>{
 
   if(disabled)
     return ;
+
+  disabled=true;
   arr=[];
   // if(document.getElementById('src_id').classList.contains('finalpath'))
   //   document.getElementById('src_id').classList.remove('finalpath');
@@ -777,13 +779,16 @@ const dfs_init=()=>{
           for(let i=0;i<len2;i++)
           {
             setTimeout(()=>{
-              console.log('hdhioeofinesoi');
+             
               console.log(output['stack'][i]);
               let r=lseg(output['stack'][i]);
               let c=rseg(output['stack'][i]);
               let str='#tr'+r+' .td'+c;
               document.querySelector(str).classList.remove('anime');
               document.querySelector(str).classList.add('finalpath');
+
+              if(i==len2-1)
+                disabled=false;
             },algo_speed*i);
           }
         
@@ -976,7 +981,7 @@ document.getElementById('initiate').addEventListener('click',()=>{
   wipeout();
   
 
-  disabled=true;
+  // disabled=true;
   if(!selected_algo)
   {
     alert('Select an algorithm first!');
@@ -989,6 +994,8 @@ if(selected_algo_value=='Dijkstra')
 dijkstra(arr,src_define,dest_define,printPath);
 else if(selected_algo_value=='astar')
   astar(arr,src_define,dest_define,printPath);
+else if(selected_algo_value=='BFS')
+dijkstra(arr,src_define,dest_define,printPath);
 else
 dfs_init();
 
